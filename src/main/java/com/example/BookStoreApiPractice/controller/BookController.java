@@ -24,10 +24,9 @@ public class BookController {
     }
 
     @PutMapping("/books/{isbn}")
-    public ResponseEntity<BookDto> createBook (@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto){
+    public ResponseEntity<BookDto> createBook (@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) throws Exception {
         BookEntity book = mapper.from(bookDto);
-        BookEntity savedBook = bookService.updateBook(isbn, book);
-        BookDto bookRequest = mapper.to(savedBook);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookRequest);
+        BookDto savedBook = bookService.upsertBook(isbn, bookDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
     }
 }

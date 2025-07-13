@@ -1,5 +1,7 @@
 package com.example.BookStoreApiPractice.exception;
 
-public class RessourceNotFoundException extends Exception{
-
+public class ResourceNotFoundException extends Exception{
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
 }

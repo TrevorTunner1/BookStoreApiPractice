@@ -20,5 +20,5 @@ public class BookDto {
 
     private String yearPublished;
 
-    private AuthorDto author;
+    private Long AuthorId;
 }
