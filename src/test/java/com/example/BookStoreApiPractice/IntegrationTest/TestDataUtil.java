@@ -1,5 +1,6 @@
 package com.example.BookStoreApiPractice.IntegrationTest;
 
+import com.example.BookStoreApiPractice.domain.entites.dto.BookDto;
 import com.example.BookStoreApiPractice.domain.entites.entity.AuthorEntity;
 import com.example.BookStoreApiPractice.domain.entites.entity.BookEntity;
 
@@ -35,6 +36,16 @@ public final class TestDataUtil {
                 .bookName("Living life with an akagami")
                 .yearPublished("2025")
                 .author(author)
+                .build();
+    }
+
+
+    public static BookDto createBookDtoA(){ //test data for book dto
+        return BookDto.builder()
+                .isbn("105-min-rei")
+                .bookName("Living life with an akagami")
+                .yearPublished("2025")
+                .authorId(1L)
                 .build();
     }
 }

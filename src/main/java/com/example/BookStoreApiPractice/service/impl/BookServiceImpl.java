@@ -10,8 +10,9 @@ import com.example.BookStoreApiPractice.repository.AuthorRepository;
 import com.example.BookStoreApiPractice.repository.BookRepository;
 import com.example.BookStoreApiPractice.service.BookService;
 import org.springframework.stereotype.Service;
-
-import java.awt.print.Book;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class  BookServiceImpl implements BookService {
@@ -47,6 +48,12 @@ public class  BookServiceImpl implements BookService {
 
         BookEntity saved = bookRepository.save(book);
         return mapper.to(saved);
+    }
+
+    @Override
+    public List<BookEntity> findAll() {
+        return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
 }

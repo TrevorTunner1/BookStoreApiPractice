@@ -6,9 +6,12 @@ import com.example.BookStoreApiPractice.mapper.Mapper;
 import com.example.BookStoreApiPractice.service.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthorController {
@@ -29,5 +32,23 @@ public class AuthorController {
         AuthorDto response = authorMapper.to(savedAuthor);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/authors")
+    public List<AuthorDto> findAllAuthors(){
+        List<AuthorEntity> authors = authorService.findAll();
+        return authors.stream()
+                .map(authorMapper::to)
+                .collect(Collectors.toList());
+    }
+    
+    @GetMapping("/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor (@PathVariable("id") Long id){
+        Optional<AuthorEntity> foundAuthor = authorService.findOne(id);
+        return foundAuthor.map(author -> {
+            AuthorDto getAuthor = authorMapper.to(author);
+            return new ResponseEntity<>(getAuthor,HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
 }

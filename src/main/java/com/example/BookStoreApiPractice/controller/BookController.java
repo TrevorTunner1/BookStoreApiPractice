@@ -6,10 +6,12 @@ import com.example.BookStoreApiPractice.mapper.Mapper;
 import com.example.BookStoreApiPractice.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
 
 @RestController
 public class BookController {
@@ -28,5 +30,13 @@ public class BookController {
         BookEntity book = mapper.from(bookDto);
         BookDto savedBook = bookService.upsertBook(isbn, bookDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+    }
+
+    @GetMapping("/books")
+    public List<BookDto> findAllBooks(){
+        List<BookEntity> book = bookService.findAll();
+        return book.stream()
+                .map(mapper::to)
+                .collect(Collectors.toList());
     }
 }
